@@ -1,0 +1,10 @@
+# Ignore these files
+/.gradle
+/build
+/src/main/generated
+/out
+/gradle
+/.idea
+/.DS_Store
+/*/*/*/*/*/.DS_Store
+/*/*/*/*/*/*/.DS_Store
