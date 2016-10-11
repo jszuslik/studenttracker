@@ -1,137 +1,42 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.0.RELEASE'
-	}
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath 'io.spring.gradle:dependency-management-plugin:0.6.0.RELEASE'
+		classpath 'io.spring.gradle:dependency-management-plugin:0.5.4.RELEASE'
 	}
 }
-plugins {
-	id 'org.liquibase.gradle' version '1.2.1'
-}
 
-apply plugin: 'java'
-apply plugin: 'spring-boot'
+group 'com.norulesweb.studenttracker'
+
 apply plugin: 'idea'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
 
-compileJava {
-	options.encoding = 'UTF-8'
-	options.compilerArgs << "-Xlint:all"
-}
-
-
-jar {
-	baseName = 'studenttracker'
-	version = '0.0.1'
-}
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-	mavenCentral()
-}
-dependencyManagement {
-	imports {
-		mavenBom 'io.spring.platform:platform-bom:2.0.7.RELEASE'
-	}
-}
-configurations {
-	providedRuntime
-	compileOnly
-	querydslapt
-
-}
-apply from: "liquibase.gradle"
-///// Querydsl support
-sourceSets {
-	generated {
-		java {
-			srcDirs = ['src/main/generated']
-		}
+subprojects {
+	repositories {
+		mavenCentral()
 	}
 }
 
-
-task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
-	source = sourceSets.main.java
-	classpath = configurations.compile + configurations.querydslapt
-	options.compilerArgs = [
-			"-proc:only",
-			"-processor", "com.mysema.query.apt.jpa.JPAAnnotationProcessor"
-	]
-	destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+allprojects {
+	version '0.0.1'
 }
 
-compileJava {
-	dependsOn generateQueryDSL
-	source generateQueryDSL.destinationDir
-	options.compilerArgs << "-Xlint:all"
+/**
+ * Path to Tomcat webapps directory
+ */
+def tomcatDeployDir() {
+	return rootProject.rootDir.getParentFile().getParentFile().absolutePath + "/tomcat/webapps"
 }
 
-compileGeneratedJava {
-	dependsOn generateQueryDSL
-	options.warnings = false
-	classpath += sourceSets.main.runtimeClasspath
+/**
+ * Create a task for all subprojects that have a deployTomcat target
+ */
+task deployTomcat() {
+	dependsOn subprojects.findAll( { it.tasks.findByName("deployTomcat") != null } ).deployTomcat
 }
 
-clean {
-	delete sourceSets.generated.java.srcDirs
-}
 
-idea {
-	module {
-		sourceDirs += file('src/main/generated')
-	}
-}
-///// End Querydsl support
-// Explode the Spring Boot repackaged .war into the Tomcat directory
-task deployTomcat(type: Copy, dependsOn: bootRepackage) {
-	fileTree(libsDir).matching { include "*.war" }.each {
-		def filename = it.canonicalFile.name.replaceAll(~"smartflow-(supplier-simulator-.*)-${version}[.]war") { match, base -> return base }
-		def outputDir = file(tomcatDeployDir() + "/" + filename)
-
-		from zipTree(it)
-		into outputDir
-	}
-}
-
-dependencies {
-	compile 'org.springframework:spring-core'
-
-	// https://mvnrepository.com/artifact/org.hibernate/hibernate-tools
-	// compile group: 'org.hibernate', name: 'hibernate-tools', version: '5.0.2.Final'
-
-	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-	// https://mvnrepository.com/artifact/org.springframework/spring-orm
-	compile group: 'org.springframework', name: 'spring-orm', version: '4.3.2.RELEASE'
-
-	// https://mvnrepository.com/artifact/org.hibernate/hibernate-core
-	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.2.Final'
-
-
-	// https://mvnrepository.com/artifact/com.mysema.querydsl/querydsl-core
-	compile group: 'com.mysema.querydsl', name: 'querydsl-core', version: '3.7.4'
-	// https://mvnrepository.com/artifact/com.mysema.querydsl/querydsl-jpa
-	compile group: 'com.mysema.querydsl', name: 'querydsl-jpa', version: '3.7.4'
-	// https://mvnrepository.com/artifact/com.mysema.querydsl/querydsl-apt
-	querydslapt group: 'com.mysema.querydsl', name: 'querydsl-apt', version: '3.7.4'
-
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-jdbc')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	//compile("org.jadira.usertype:usertype.core:5.0.0.GA")
-	compile("org.hibernate:hibernate-java8")
-
-//	runtime('com.h2database:h2')
-	runtime('mysql:mysql-connector-java')
-	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
-	//compileOnly 'org.hibernate:hibernate-jpamodelgen'
-
-//	testCompile('org.springframework.boot:spring-boot-starter-test')
-}

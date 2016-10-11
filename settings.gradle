@@ -1,0 +1,4 @@
+include("student-api")
+include("student-api:core")
+include("student-api:service")
+include("student-core")
