@@ -48,6 +48,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 
 		http.authorizeRequests()
 				.antMatchers("/soap-api/**").permitAll()
+				.antMatchers("/**").permitAll()
 
 				// By default any request must be authenticated
 				.anyRequest()
