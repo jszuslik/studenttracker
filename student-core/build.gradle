@@ -45,6 +45,7 @@ dependencies {
     compile("org.springframework.data:spring-data-jpa")
     compile("org.springframework.security:spring-security-core")
     compile("org.hibernate:hibernate-entitymanager")
+    compile("org.hibernate:hibernate-validator")
     compile "com.mysema.querydsl:querydsl-core"
     compile "com.mysema.querydsl:querydsl-jpa"                  // Querydsl support JPA
     querydslapt "com.mysema.querydsl:querydsl-apt"              // Querydsl support annotation processing
