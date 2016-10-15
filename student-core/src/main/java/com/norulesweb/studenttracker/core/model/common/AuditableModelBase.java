@@ -64,7 +64,7 @@ public abstract class AuditableModelBase extends VersionedModelBase {
      */
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="CREATED_BY_SMART_FLOW_USER_ID")
+    @JoinColumn(name="CREATED_BY_STUDENT_TRACKER_USER_ID")
     public StudentTrackerUser getCreatedBy() {
         return createdBy;
     }
@@ -78,7 +78,7 @@ public abstract class AuditableModelBase extends VersionedModelBase {
      */
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
-    @JoinColumn(name="UPDATED_BY_SMART_FLOW_USER_ID")
+    @JoinColumn(name="UPDATED_BY_STUDENT_TRACKER_USER_ID")
     public StudentTrackerUser getUpdatedBy() {
         return updatedBy;
     }

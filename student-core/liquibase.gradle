@@ -54,7 +54,7 @@ task liquibaseHibernateDiffChangeLog(dependsOn: [ compileJava, prepareGeneratedD
 
     //args "--logLevel=debug"
     args "--changeLogFile=" + changeLogGeneratedDir + "/" + buildTimestamp() +"_changelog.xml"
-    args "--referenceUrl=hibernate:spring:" + modelPackageName + "?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.ejb.naming_strategy=com.rev360.smartflow.core.common.HibernateUppercaseNamingStrategy"
+    args "--referenceUrl=hibernate:spring:" + modelPackageName + "?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.ejb.naming_strategy=com.norulesweb.studenttracker.core.common.HibernateUppercaseNamingStrategy"
     args "--username="+dbUser
     args "--password="+dbPassword
     args "--url="+dbUrl

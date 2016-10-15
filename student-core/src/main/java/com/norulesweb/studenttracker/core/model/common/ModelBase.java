@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 
 /**
- * A base model class for most SmartFlow models.
+ * A base model class for most StudentTracker models.
  */
 @MappedSuperclass
 public abstract class ModelBase implements IIdentifiable {

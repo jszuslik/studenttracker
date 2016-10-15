@@ -25,7 +25,7 @@ public class ApplicationJpaConfiguration {
 	}
 
 	/**
-	 * The SmartFlowUser provider for auditable models
+	 * The StudentTrackerUser provider for auditable models
 	 */
 	@Bean
 	public AuditorAware<StudentTrackerUser> studentTrackerUserAuditorAware() {

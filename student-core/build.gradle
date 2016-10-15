@@ -55,8 +55,6 @@ dependencies {
     compile("org.jadira.usertype:usertype.core:4.0.0.GA")
     compile("org.jadira.usertype:usertype.extended:4.0.0.GA")
 
-    // compile project(":smartflow-event")
-
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
