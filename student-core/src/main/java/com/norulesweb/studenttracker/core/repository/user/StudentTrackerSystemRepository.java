@@ -4,5 +4,5 @@ import com.norulesweb.studenttracker.core.common.StudentTrackerRepository;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
 
 public interface StudentTrackerSystemRepository extends StudentTrackerRepository<StudentTrackerSystem, Long> {
-	public StudentTrackerSystem findOneByName(String name);
+	public StudentTrackerSystem findByName(String name);
 }

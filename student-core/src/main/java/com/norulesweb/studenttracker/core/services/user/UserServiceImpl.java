@@ -17,6 +17,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
+	protected LoggedInChecker loggedInChecker;
+
+	@Autowired
 	protected StudentTrackerUserRepository studentTrackerUserRepository;
 
 	@Autowired
@@ -26,15 +29,13 @@ public class UserServiceImpl implements UserService {
 	protected UserLookup userLookup;
 
 	@Override
-	public StudentTrackerUserDTO createStudentTrackerUser(String userId, String plaintextPassword, Long studentTrackerSystemId) {
+	public StudentTrackerUserDTO createStudentTrackerUser(String userId, String plaintextPassword, StudentTrackerSystem studentTrackerSystem) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		StudentTrackerUser studentTrackerUser = new StudentTrackerUser();
 		studentTrackerUser.setUserId(userId);
 		studentTrackerUser.setPassword(passwordEncoder.encode(plaintextPassword));
 
-		StudentTrackerSystem studentTrackerSystem = new StudentTrackerSystem();
-		studentTrackerSystem.setId(studentTrackerSystemId);
 		studentTrackerUser.setStudentTrackerSystem(studentTrackerSystem);
 
 		StudentTrackerUser savedUser = studentTrackerUserRepository.save(studentTrackerUser);
@@ -72,5 +73,10 @@ public class UserServiceImpl implements UserService {
 			return user.getStudentTrackerSystem();
 		else
 			return null;
+	}
+
+	@Override
+	public Boolean isCurrentUserLoggedIn() {
+		return loggedInChecker.getLoggedInUser() != null;
 	}
 }

@@ -48,20 +48,20 @@ public class Initializer {
 	public void initializePlatform() {
 
 		StudentTrackerSystemDTO studentTrackerSystemDTO;
-		StudentTrackerSystem system = studentTrackerSystemRepository.findOneByName(platformName);
+		StudentTrackerSystem system = studentTrackerSystemRepository.findByName(platformName);
 		if (system == null) {
-			studentTrackerSystemDTO = new StudentTrackerSystemDTO();
-			studentTrackerSystemDTO.setName(platformName);
-			studentTrackerSystemDTO.setDescription(platformDescription);
+			system = new StudentTrackerSystem();
+			system.setName(platformName);
+			system.setDescription(platformDescription);
 
-			studentTrackerSystemDTO = userService.saveStudentTrackerSystem(studentTrackerSystemDTO);
+			studentTrackerSystemRepository.save(system);
 		} else {
 			studentTrackerSystemDTO = new StudentTrackerSystemDTO(system);
 		}
 
 		if (userService.findUserByUserId(userName) == null) {
 			// Create a user
-			userService.createStudentTrackerUser(userName, userPassword, studentTrackerSystemDTO.getId());
+			userService.createStudentTrackerUser(userName, userPassword, system);
 		}
 	}
 

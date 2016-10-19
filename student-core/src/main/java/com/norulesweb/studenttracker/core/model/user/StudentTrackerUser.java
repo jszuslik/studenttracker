@@ -5,6 +5,8 @@ import com.norulesweb.studenttracker.core.model.common.ModelConstants;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A StudentTracker user.  This could be an internal user (StudentTracker workers) or an
@@ -27,7 +29,7 @@ public class StudentTrackerUser extends ModelBase {
 
     private String email;
 
-    private StudentTrackerRoles role;
+    private Set<StudentTrackerRoles> roles;
 
     private StudentTrackerSystem studentTrackerSystem;
 
@@ -37,7 +39,6 @@ public class StudentTrackerUser extends ModelBase {
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
@@ -56,11 +57,16 @@ public class StudentTrackerUser extends ModelBase {
         this.email = email;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "ROLE")
-    public StudentTrackerRoles getRole() { return role; }
-    public void setRole(StudentTrackerRoles role) {
-        this.role = role;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "studentTrackerUser")
+    public Set<StudentTrackerRoles> getRoles() { return roles; }
+    public void setRoles(Set<StudentTrackerRoles> roles) {
+        this.roles = roles;
+    }
+    public void addRole(StudentTrackerRoles role){
+        if(this.roles == null){
+            this.roles = new HashSet<>();
+        }
+        this.roles.add(role);
     }
 
     @ManyToOne(optional = false)
@@ -76,8 +82,8 @@ public class StudentTrackerUser extends ModelBase {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("id", id)
-                .append("userId", userId)
+                .append("id=", id)
+                .append("userId=", userId)
                 .toString();
     }
 }

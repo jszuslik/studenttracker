@@ -31,7 +31,7 @@ public class QStudentTrackerUser extends EntityPathBase<StudentTrackerUser> {
 
     public final StringPath password = createString("password");
 
-    public final QStudentTrackerRoles role;
+    public final SetPath<StudentTrackerRoles, QStudentTrackerRoles> roles = this.<StudentTrackerRoles, QStudentTrackerRoles>createSet("roles", StudentTrackerRoles.class, QStudentTrackerRoles.class, PathInits.DIRECT2);
 
     public final QStudentTrackerSystem studentTrackerSystem;
 
@@ -55,7 +55,6 @@ public class QStudentTrackerUser extends EntityPathBase<StudentTrackerUser> {
 
     public QStudentTrackerUser(Class<? extends StudentTrackerUser> type, PathMetadata<?> metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.role = inits.isInitialized("role") ? new QStudentTrackerRoles(forProperty("role")) : null;
         this.studentTrackerSystem = inits.isInitialized("studentTrackerSystem") ? new QStudentTrackerSystem(forProperty("studentTrackerSystem")) : null;
     }
 

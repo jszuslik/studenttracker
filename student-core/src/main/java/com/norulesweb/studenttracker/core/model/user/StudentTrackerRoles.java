@@ -3,9 +3,7 @@ package com.norulesweb.studenttracker.core.model.user;
 import com.norulesweb.studenttracker.core.model.common.ModelBase;
 import com.norulesweb.studenttracker.core.model.common.ModelConstants;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(
@@ -13,14 +11,35 @@ import javax.persistence.Table;
 )
 public class StudentTrackerRoles extends ModelBase {
 
-    private String role;
+    private StudentTrackerUser studentTrackerUser;
+
+    private String roleCode;
+
+    private String roleDescription;
 
     public StudentTrackerRoles() { }
 
-    @Column(name = "ROLE", length = ModelConstants.LEN_NORMAL)
-    public String getRole() { return role; }
-    public void setRole(String role) {
-        this.role = role;
+    public StudentTrackerRoles(String roleCode, String roleDescription) {
+        this.roleCode = roleCode;
+        this.roleDescription = roleDescription;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "STUDENT_TRACKER_USER_ID")
+    public StudentTrackerUser getStudentTrackerUser() { return studentTrackerUser; }
+    public void setStudentTrackerUser(StudentTrackerUser studentTrackerUser) {
+        this.studentTrackerUser = studentTrackerUser;
+    }
+
+    @Column(name = "ROLE_CODE", length = ModelConstants.LEN_NORMAL)
+    public String getRoleCode() { return roleCode; }
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
+
+    @Column(name = "ROLE_DESCRIPTION")
+    public String getRoleDescription() { return roleDescription; }
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
 }

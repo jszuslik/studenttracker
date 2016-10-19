@@ -6,42 +6,44 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Basic Spring Security implementation of {@link org.springframework.security.core.userdetails.UserDetails}
  */
 public class StudentTrackerUserDetails implements UserDetails {
+
+	private List<GrantedAuthority> authorities;
 	
-	private static final long serialVersionUID = -4958723639132118472L;
+	private StudentTrackerUser studentTrackerUser;
+
+	public StudentTrackerUserDetails() { }
+
+	public StudentTrackerUserDetails(StudentTrackerUserDTO studentTrackerUserDTO ) {
+		this.studentTrackerUser.setUserId(studentTrackerUserDTO.getUserId());
+	}
 	
-	protected String password;
-	
-	protected String username;
-	
-	protected boolean enabled;
-	
-	protected StudentTrackerUser studentTrackerUser;
-	
-	public StudentTrackerUserDetails(StudentTrackerUserDTO userDTO) {
-		username = userDTO.getUserId();
-		password = userDTO.getPassword();
-		enabled = true;
-		studentTrackerUser = userDTO.buildModel();
+	public StudentTrackerUserDetails(StudentTrackerUser studentTrackerUser, List<GrantedAuthority> authorities) {
+		this.studentTrackerUser = studentTrackerUser;
+		this.authorities = authorities;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+	public StudentTrackerUser getStudentTrackerUser() {
+		return studentTrackerUser;
+	}
+
+	public void setStudentTrackerUser(StudentTrackerUser studentTrackerUser) {
+		this.studentTrackerUser = studentTrackerUser;
 	}
 
 	@Override
 	public String getPassword() {
-		return password;
+		return studentTrackerUser.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return username;
+		return studentTrackerUser.getUserId();
 	}
 
 	@Override
@@ -61,16 +63,12 @@ public class StudentTrackerUserDetails implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public StudentTrackerUser getStudentTrackerUser() {
-		return studentTrackerUser;
+		return true;
 	}
 
 	@Override
-	public String toString() {
-		return username + " - " + studentTrackerUser.toString();
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
 	}
 
 }

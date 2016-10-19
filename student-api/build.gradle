@@ -43,6 +43,8 @@ project(":student-api:core") {
     dependencies {
         compile("javax.validation:validation-api")
         compile("org.springframework:spring-web")
+        compile("org.springframework.security:spring-security-web")
+        compile("org.springframework.boot:spring-boot-starter-tomcat")
         compile project(":student-core")
 
         testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -78,6 +80,7 @@ project(":student-api:service") {
         compile("org.springframework.boot:spring-boot-starter-web")
         providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
         compile("org.springframework.boot:spring-boot-starter-aop")
+        compile("org.springframework:spring-web")
         compile("org.springframework.boot:spring-boot-starter-actuator")
         compile("org.springframework.boot:spring-boot-starter-data-jpa")
         compile("org.springframework.boot:spring-boot-starter-security")

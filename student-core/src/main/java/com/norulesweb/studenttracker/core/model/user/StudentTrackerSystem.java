@@ -25,8 +25,6 @@ public class StudentTrackerSystem extends ModelBase {
 
     private String description;
 
-    private boolean isInternal = false;
-
     public StudentTrackerSystem() { }
 
     public StudentTrackerSystem(Long id) {
@@ -57,18 +55,5 @@ public class StudentTrackerSystem extends ModelBase {
         this.description = description;
     }
 
-    /**
-     * True if the system is internal (i.e., StudentTracker)
-     *
-     * TODO - maybe this should be a list of roles/authorities for the overall system
-     */
-    @Column(name = "IS_INTERNAL", nullable = false)
-    public boolean getIsInternal() {
-        return isInternal;
-    }
-
-    public void setIsInternal(boolean isInternal) {
-        isInternal = isInternal;
-    }
 }
 

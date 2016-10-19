@@ -26,8 +26,6 @@ public class QStudentTrackerSystem extends EntityPathBase<StudentTrackerSystem> 
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final BooleanPath isInternal = createBoolean("isInternal");
-
     public final StringPath name = createString("name");
 
     public QStudentTrackerSystem(String variable) {
