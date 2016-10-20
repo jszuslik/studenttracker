@@ -18,24 +18,24 @@ public class StudentTrackerUserAuditorAwareLocal implements AuditorAware<Student
 	@Autowired
 	protected StudentTrackerUserRepository studentTrackerUserRepository;
 
-	private static String studentTrackerUserId;
+	private static String studentTrackerUserName;
 
 	private static StudentTrackerUser studentTrackerUser;
 
-	public void setStudentTrackerUserId(String userid) {
-		studentTrackerUserId = userid;
+	public void setStudentTrackerUserName(String userName) {
+		studentTrackerUserName = userName;
 	}
 
 	public StudentTrackerUserAuditorAwareLocal() { }
 
-	public StudentTrackerUserAuditorAwareLocal(String userId) {
-		setStudentTrackerUserId(userId);
+	public StudentTrackerUserAuditorAwareLocal(String userName) {
+		setStudentTrackerUserName(userName);
 	}
 
 	@Override
 	public StudentTrackerUser getCurrentAuditor() {
 		if (studentTrackerUser == null) {
-			studentTrackerUser = studentTrackerUserRepository.findByUserId(studentTrackerUserId).get(0);
+			studentTrackerUser = studentTrackerUserRepository.findByUserName(studentTrackerUserName).get(0);
 		}
 		return studentTrackerUser;
 	}

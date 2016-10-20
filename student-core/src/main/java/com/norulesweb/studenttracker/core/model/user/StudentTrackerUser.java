@@ -18,12 +18,12 @@ import java.util.Set;
 @Table(
         name="STUDENT_TRACKER_USER",
         indexes = {
-                @Index(columnList = "USER_ID")
+                @Index(columnList = "USER_NAME")
         }
 )
 public class StudentTrackerUser extends ModelBase {
 
-    private String userId;
+    private String userName;
 
     private String password;
 
@@ -35,12 +35,12 @@ public class StudentTrackerUser extends ModelBase {
 
     public StudentTrackerUser() { }
 
-    @Column(name = "USER_ID", length = ModelConstants.LEN_MEDIUM)
-    public String getUserId() {
-        return userId;
+    @Column(name = "USER_NAME", length = ModelConstants.LEN_MEDIUM)
+    public String getUserName() {
+        return userName;
     }
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Column(name = "PASSWORD", length = ModelConstants.LEN_NORMAL)
@@ -83,7 +83,7 @@ public class StudentTrackerUser extends ModelBase {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id=", id)
-                .append("userId=", userId)
+                .append("userName=", userName)
                 .toString();
     }
 }

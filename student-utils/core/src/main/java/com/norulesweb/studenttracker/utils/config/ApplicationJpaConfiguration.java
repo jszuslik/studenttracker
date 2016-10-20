@@ -19,7 +19,7 @@ public class ApplicationJpaConfiguration {
 	 * The StudentTrackerUser ID that the utility will run under (for auditing purposes)
 	 */
 	@Value("${utils.user}")
-	protected String utilitiesUserId;
+	protected String utilitiesUserName;
 
 	/**
 	 * The DateTimeProvider for auditable models
@@ -34,7 +34,7 @@ public class ApplicationJpaConfiguration {
 	 */
 	@Bean
 	public StudentTrackerUserAuditorAwareLocal studentTrackerUserAuditorAwareLocal() {
-		StudentTrackerUserAuditorAwareLocal auditor = new StudentTrackerUserAuditorAwareLocal(utilitiesUserId);
+		StudentTrackerUserAuditorAwareLocal auditor = new StudentTrackerUserAuditorAwareLocal(utilitiesUserName);
 		return auditor;
 	}
 }

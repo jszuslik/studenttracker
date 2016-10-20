@@ -6,5 +6,5 @@ import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
 import java.util.List;
 
 public interface StudentTrackerUserRepository extends StudentTrackerRepository<StudentTrackerUser, Long> {
-	public List<StudentTrackerUser> findByUserId(String userId);
+	public List<StudentTrackerUser> findByUserName(String userName);
 }

@@ -14,11 +14,11 @@ public class StudentTrackerUserDetailsService implements UserDetailsService {
 	protected UserService userService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		StudentTrackerUserDTO userDTO = userService.findUserByUserId(username);
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		StudentTrackerUserDTO userDTO = userService.findUserByUserName(userName);
 
 		if (userDTO == null)
-			throw new UsernameNotFoundException(username + " not found");
+			throw new UsernameNotFoundException(userName + " not found");
 
 		StudentTrackerUserDetails userDetails = new StudentTrackerUserDetails(userDTO);
 

@@ -1,7 +1,9 @@
 package com.norulesweb.studenttracker.core.services.user;
 
+import com.norulesweb.studenttracker.core.model.user.StudentTrackerRoles;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
+import com.norulesweb.studenttracker.core.repository.user.StudentTrackerRolesRepository;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerSystemRepository;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerUserRepository;
 import com.norulesweb.studenttracker.core.services.utilities.UserLookup;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -18,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	protected LoggedInChecker loggedInChecker;
+
+	@Autowired
+	protected StudentTrackerRolesRepository studentTrackerRolesRepository;
 
 	@Autowired
 	protected StudentTrackerUserRepository studentTrackerUserRepository;
@@ -29,12 +35,14 @@ public class UserServiceImpl implements UserService {
 	protected UserLookup userLookup;
 
 	@Override
-	public StudentTrackerUserDTO createStudentTrackerUser(String userId, String plaintextPassword, StudentTrackerSystem studentTrackerSystem) {
+	public StudentTrackerUserDTO createStudentTrackerUser(StudentTrackerUserDTO user, StudentTrackerSystem studentTrackerSystem) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+		Set<StudentTrackerRoles> roles = user.get
+
 		StudentTrackerUser studentTrackerUser = new StudentTrackerUser();
-		studentTrackerUser.setUserId(userId);
-		studentTrackerUser.setPassword(passwordEncoder.encode(plaintextPassword));
+		studentTrackerUser.setUserName(user.getUserName());
+		studentTrackerUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
 		studentTrackerUser.setStudentTrackerSystem(studentTrackerSystem);
 
@@ -47,8 +55,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public StudentTrackerUserDTO findUserByUserId(String userId) {
-		List<StudentTrackerUser> users = studentTrackerUserRepository.findByUserId(userId);
+	public StudentTrackerUserDTO findUserByUserName(String userName) {
+		List<StudentTrackerUser> users = studentTrackerUserRepository.findByUserName(userName);
 
 		if (users.isEmpty())
 			return null;

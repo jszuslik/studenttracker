@@ -59,7 +59,7 @@ public class Initializer {
 			studentTrackerSystemDTO = new StudentTrackerSystemDTO(system);
 		}
 
-		if (userService.findUserByUserId(userName) == null) {
+		if (userService.findUserByUserName(userName) == null) {
 			// Create a user
 			userService.createStudentTrackerUser(userName, userPassword, system);
 		}

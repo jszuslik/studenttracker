@@ -3,9 +3,9 @@ package com.norulesweb.studenttracker.core.services.user;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
 
 public interface UserService {
-	StudentTrackerUserDTO createStudentTrackerUser(String userId, String plaintextPassword, StudentTrackerSystem studentTrackerSystem);
+	StudentTrackerUserDTO createStudentTrackerUser(StudentTrackerUserDTO user, StudentTrackerSystem studentTrackerSystem);
 
-	StudentTrackerUserDTO findUserByUserId(String userId);
+	StudentTrackerUserDTO findUserByUserName(String userName);
 
 	StudentTrackerSystemDTO saveStudentTrackerSystem(StudentTrackerSystemDTO system);
 

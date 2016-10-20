@@ -52,7 +52,7 @@ public class UserWebService {
 	public @ResponseBody
 	StudentTrackerUserDTO registerNewUser(@RequestBody @Valid StudentTrackerUserDTO user ) {
 		StudentTrackerSystem studentTrackerSystem = studentTrackerSystemRepository.findByName(user.getStudentTrackerSystem().getName());
-		return userService.createStudentTrackerUser(user.getUserId(), user.getPassword(), studentTrackerSystem);
+		return userService.createStudentTrackerUser(user, studentTrackerSystem);
 	}
 
 	@RequestMapping(path=StudentTrackerConstants.URL_USER_LOGIN, method = RequestMethod.POST, produces = APPLICATION_JSON_VALUE)
@@ -61,7 +61,7 @@ public class UserWebService {
 		request.getSession(true);
 
 		// Authenticate using AuthenticationManager configured on SecurityContext
-		UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(userDTO.getUserId(), userDTO.getPassword());
+		UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(userDTO.getUserName(), userDTO.getPassword());
 		authReq.setDetails(authenticationDetailsSource.buildDetails(request));
 		Authentication authResp = authenticationManager.authenticate(authReq);
 

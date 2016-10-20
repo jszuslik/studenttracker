@@ -20,7 +20,7 @@ public class StudentTrackerUserDetails implements UserDetails {
 	public StudentTrackerUserDetails() { }
 
 	public StudentTrackerUserDetails(StudentTrackerUserDTO studentTrackerUserDTO ) {
-		this.studentTrackerUser.setUserId(studentTrackerUserDTO.getUserId());
+		this.studentTrackerUser.setUserName(studentTrackerUserDTO.getUserName());
 	}
 	
 	public StudentTrackerUserDetails(StudentTrackerUser studentTrackerUser, List<GrantedAuthority> authorities) {
@@ -43,7 +43,7 @@ public class StudentTrackerUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return studentTrackerUser.getUserId();
+		return studentTrackerUser.getUserName();
 	}
 
 	@Override

@@ -12,6 +12,8 @@
 /gradlew.bat
 /classes
 /logs
+/activemq-data
+/KahaDB
 
 /student-core/gradle.properties
 /student-core/src/main/resources/spring-data-application.properties

@@ -1,13 +1,18 @@
 package com.norulesweb.studenttracker.core.services.user;
 
+import com.norulesweb.studenttracker.core.model.user.StudentTrackerRoles;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
+
+import java.util.Set;
 
 public class StudentTrackerUserDTO {
 	protected Long id;
 	
-	protected String userId;
+	protected String userName;
 	
 	protected String password;
+
+	private Set<StudentTrackerRoles> roles;
 	
 	protected StudentTrackerSystemDTO studentTrackerSystem;
 
@@ -15,7 +20,7 @@ public class StudentTrackerUserDTO {
 
 	public StudentTrackerUserDTO(StudentTrackerUser studentTrackerUser) {
 		setId(studentTrackerUser.getId());
-		setUserId(studentTrackerUser.getUserId());
+		setUserName(studentTrackerUser.getUserName());
 		setPassword(studentTrackerUser.getPassword());
 		if (studentTrackerUser.getStudentTrackerSystem() != null)
 			setStudentTrackerSystem(new StudentTrackerSystemDTO(studentTrackerUser.getStudentTrackerSystem()));
@@ -24,7 +29,7 @@ public class StudentTrackerUserDTO {
 	public StudentTrackerUser buildModel() {
 		StudentTrackerUser user = new StudentTrackerUser();
 		user.setId(getId());
-		user.setUserId(getUserId());
+		user.setUserName(getUserName());
 		// Don't even expose the password here...
 
 		if (getStudentTrackerSystem() != null)
@@ -41,12 +46,12 @@ public class StudentTrackerUserDTO {
 		this.id = id;
 	}
 
-	public String getUserId() {
-		return userId;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
