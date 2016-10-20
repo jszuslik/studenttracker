@@ -10,29 +10,29 @@
       http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
-    <http entry-point-ref="restAuthenticationEntryPoint">
-        <intercept-url pattern="/service/user/login" access="ROLE_ADMIN"/>
+    <!--<http entry-point-ref="restAuthenticationEntryPoint">-->
+        <!--<intercept-url pattern="/service/user/login" access="ROLE_ADMIN"/>-->
 
-        <form-login
-                authentication-success-handler-ref="mySuccessHandler"
-                authentication-failure-handler-ref="myFailureHandler"
-        />
+        <!--<form-login-->
+                <!--authentication-success-handler-ref="mySuccessHandler"-->
+                <!--authentication-failure-handler-ref="myFailureHandler"-->
+        <!--/>-->
 
-        <logout />
-    </http>
+        <!--<logout />-->
+    <!--</http>-->
 
-    <beans:bean id="mySuccessHandler"
-                class="com.norulesweb.studenttracker.api.security.AuthSuccessHandler"/>
-    <beans:bean id="myFailureHandler" class=
-            "org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>
+    <!--<beans:bean id="mySuccessHandler"-->
+                <!--class="com.norulesweb.studenttracker.api.security.AuthSuccessHandler"/>-->
+    <!--<beans:bean id="myFailureHandler" class=-->
+            <!--"org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"/>-->
 
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider>
-            <user-service>
-                <user name="temporary" password="temporary" authorities="ROLE_ADMIN"/>
-                <user name="user" password="user" authorities="ROLE_USER"/>
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
+    <!--<authentication-manager alias="authenticationManager">-->
+        <!--<authentication-provider>-->
+            <!--<user-service>-->
+                <!--<user name="temporary" password="temporary" authorities="ROLE_ADMIN"/>-->
+                <!--<user name="user" password="user" authorities="ROLE_USER"/>-->
+            <!--</user-service>-->
+        <!--</authentication-provider>-->
+    <!--</authentication-manager>-->
 
 </beans:beans>

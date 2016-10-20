@@ -9,7 +9,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		basePackages = { "com.norulesweb.studenttracker.core", "com.norulesweb.studenttracker.api.web", "com.norulesweb.studenttracker.api.security"}
 )
 @EnableTransactionManagement
-@ImportResource("classpath:spring-application-integration.xml")
+// @ImportResource("classpath:spring-application-integration.xml")
 @EnableJpaRepositories(
 		repositoryFactoryBeanClass = StudentTrackerRepositoryFactoryBean.class,
 		basePackages = { "com.norulesweb.studenttracker.core.repository" }
