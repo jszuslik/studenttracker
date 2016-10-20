@@ -13,3 +13,4 @@
 /classes
 
 student-core/gradle.properties
+student-core/src/main/resources/spring-data-application.properties
