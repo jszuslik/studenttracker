@@ -11,6 +11,13 @@
 /gradlew
 /gradlew.bat
 /classes
+/logs
 
-student-core/gradle.properties
-student-core/src/main/resources/spring-data-application.properties
+/student-core/gradle.properties
+/student-core/src/main/resources/spring-data-application.properties
+
+/student-utils/data-load/build
+/student-utils/core/build
+/student-core/build
+/student-api/core/build
+/student-api/service/build

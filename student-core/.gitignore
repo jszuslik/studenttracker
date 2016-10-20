@@ -1,4 +1,0 @@
-# Ignore these files
-/build
-/src/main/generated
-/src/main/resources/spring-data-application.properties
