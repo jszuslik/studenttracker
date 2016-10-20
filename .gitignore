@@ -15,6 +15,7 @@
 
 /student-core/gradle.properties
 /student-core/src/main/resources/spring-data-application.properties
+/student-core/src/generated
 
 /student-utils/data-load/build
 /student-utils/core/build
