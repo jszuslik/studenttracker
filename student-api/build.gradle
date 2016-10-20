@@ -90,7 +90,6 @@ project(":student-api:service") {
         compile("org.springframework.boot:spring-boot-starter-security")
         compile("org.springframework.boot:spring-boot-starter-integration")
         compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-        compile("io.jsonwebtoken:jjwt")
 
         compile("javax.mail:mail:1.4")                // Logback email notification support
         compile("javax.activation:activation:1.1.1")  // Logback email notification support
