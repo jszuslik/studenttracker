@@ -1,15 +1,14 @@
 package com.norulesweb.studenttracker.utils.data;
 
 import com.norulesweb.studenttracker.core.model.user.Role;
+import com.norulesweb.studenttracker.core.model.user.StudentTrackerRole;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
+import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
 import com.norulesweb.studenttracker.core.repository.user.RoleRepository;
+import com.norulesweb.studenttracker.core.repository.user.StudentTrackerRolesRepository;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerSystemRepository;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerUserRepository;
-import com.norulesweb.studenttracker.core.services.user.StudentTrackerRoleDTO;
 import com.norulesweb.studenttracker.core.services.user.StudentTrackerSystemDTO;
-import com.norulesweb.studenttracker.core.services.user.StudentTrackerUserDTO;
-import com.norulesweb.studenttracker.core.services.user.UserService;
-import com.norulesweb.studenttracker.core.services.utilities.StudentTrackerUserAuditorAwareLocal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @PropertySources({
@@ -51,13 +52,11 @@ public class Initializer {
 	protected StudentTrackerUserRepository studentTrackerUserRepository;
 
 	@Autowired
-	protected UserService userService;
+	protected StudentTrackerRolesRepository studentTrackerRolesRepository;
 
 	@Autowired
 	protected RoleRepository roleRepository;
 
-	@Autowired
-	protected StudentTrackerUserAuditorAwareLocal studentTrackerUserAuditorAwareLocal;
 
 	public void initializePlatform() {
 
@@ -87,21 +86,26 @@ public class Initializer {
 			studentTrackerSystemDTO = new StudentTrackerSystemDTO(system);
 		}
 
-		StudentTrackerUserDTO studentTrackerUserDTO;
-		if (userService.findUserByUserName(userName) == null) {
-			studentTrackerUserDTO = new StudentTrackerUserDTO();
-			studentTrackerUserDTO.setUserName(userName);
-			studentTrackerUserDTO.setPassword(userPassword);
-			studentTrackerUserDTO.setUserEmail(userEmail);
+		List<StudentTrackerUser> users = studentTrackerUserRepository.findByUserName(userName);
+
+		if (users == null) {
+			StudentTrackerUser user = new StudentTrackerUser();
+			user = new StudentTrackerUser();
+			user.setUserName(userName);
+			user.setPassword(userPassword);
+
+			user = studentTrackerUserRepository.save(user);
+
 			for(String[] role : roles) {
 				Role userRole = roleRepository.findByRoleCode(role[0]);
-				StudentTrackerRoleDTO roleDTO = new StudentTrackerRoleDTO();
-				roleDTO.setRoleCode(userRole.getRoleCode());
-				roleDTO.setRoleDescription(userRole.getRoleDescription());
-				studentTrackerUserDTO.addRole(roleDTO);
+				StudentTrackerRole newRole = new StudentTrackerRole();
+				newRole.setRoleCode(userRole.getRoleCode());
+				newRole.setRoleDescription(userRole.getRoleDescription());
+				newRole.setStudentTrackerUser(user);
+				newRole = studentTrackerRolesRepository.save(newRole);
+				user.addRole(newRole);
 			}
-
-			userService.createStudentTrackerUser(studentTrackerUserDTO, system);
+			studentTrackerUserRepository.save(user);
 		}
 	}
 

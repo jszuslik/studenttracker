@@ -1,7 +1,6 @@
 package com.norulesweb.studenttracker.utils.config;
 
 import com.norulesweb.studenttracker.core.model.common.AuditableDateTimeProvider;
-import com.norulesweb.studenttracker.core.services.utilities.StudentTrackerUserAuditorAwareLocal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing(
-		dateTimeProviderRef = "dateTimeProvider",
-		auditorAwareRef = "studentTrackerUserAuditorAwareLocal"
+		dateTimeProviderRef = "dateTimeProvider"
 )
 public class ApplicationJpaConfiguration {
 
@@ -29,14 +27,6 @@ public class ApplicationJpaConfiguration {
 		return new AuditableDateTimeProvider();
 	}
 
-	/**
-	 * The StudentTrackerUser provider for auditable models
-	 */
-	@Bean
-	public StudentTrackerUserAuditorAwareLocal studentTrackerUserAuditorAwareLocal() {
-		StudentTrackerUserAuditorAwareLocal auditor = new StudentTrackerUserAuditorAwareLocal(utilitiesUserName);
-		return auditor;
-	}
 }
 
 

@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		basePackages = { "com.norulesweb.studenttracker.core.repository" }
 )
 @EntityScan(basePackages = { "com.norulesweb.studenttracker.core" })
-
 public class Application extends SpringBootServletInitializer {
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 

@@ -1,18 +1,14 @@
 package com.norulesweb.studenttracker.api.config;
 
 import com.norulesweb.studenttracker.core.model.common.AuditableDateTimeProvider;
-import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
-import com.norulesweb.studenttracker.core.services.utilities.StudentTrackerUserAuditorAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.auditing.DateTimeProvider;
-import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing(
-		dateTimeProviderRef = "dateTimeProvider",
-		auditorAwareRef = "studentTrackerUserAuditorAware"
+		dateTimeProviderRef = "dateTimeProvider"
 )
 public class ApplicationJpaConfiguration {
 
@@ -24,13 +20,6 @@ public class ApplicationJpaConfiguration {
 		return new AuditableDateTimeProvider();
 	}
 
-	/**
-	 * The StudentTrackerUser provider for auditable models
-	 */
-	@Bean
-	public AuditorAware<StudentTrackerUser> studentTrackerUserAuditorAware() {
-		return new StudentTrackerUserAuditorAware();
-	}
 }
 
 

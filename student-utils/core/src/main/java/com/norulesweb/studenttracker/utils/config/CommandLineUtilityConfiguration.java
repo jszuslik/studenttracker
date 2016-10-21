@@ -1,12 +1,13 @@
 package com.norulesweb.studenttracker.utils.config;
 
 import com.norulesweb.studenttracker.core.common.StudentTrackerRepositoryFactoryBean;
-import com.norulesweb.studenttracker.core.services.utilities.StudentTrackerUserAuditorAwareLocal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -36,16 +37,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan(basePackages = { "com.norulesweb.studenttracker.core" })
 public class CommandLineUtilityConfiguration {
 
-	@Autowired
-	StudentTrackerUserAuditorAwareLocal studentTrackerUserAuditorAwareLocal;
-
-	/**
-	 * Load the user for auditing.  This needs to happen separate from any
-	 * other transaction, and only needs to happen once per application run.
-	 */
-	public void setupAuditing() {
-		studentTrackerUserAuditorAwareLocal.getCurrentAuditor();
-	}
 }
 
 
