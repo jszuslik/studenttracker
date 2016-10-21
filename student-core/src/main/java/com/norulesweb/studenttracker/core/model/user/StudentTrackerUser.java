@@ -29,11 +29,15 @@ public class StudentTrackerUser extends ModelBase {
 
     private String email;
 
-    private Set<StudentTrackerRoles> roles;
+    private Boolean isEnabled;
+
+    private Set<StudentTrackerRole> roles;
 
     private StudentTrackerSystem studentTrackerSystem;
 
-    public StudentTrackerUser() { }
+    public StudentTrackerUser() {
+        setIsEnabled(true);
+    }
 
     @Column(name = "USER_NAME", length = ModelConstants.LEN_MEDIUM)
     public String getUserName() {
@@ -57,12 +61,19 @@ public class StudentTrackerUser extends ModelBase {
         this.email = email;
     }
 
+    @Column(name = "IS_ENABLED")
+    public Boolean getIsEnabled() { return isEnabled; }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "studentTrackerUser")
-    public Set<StudentTrackerRoles> getRoles() { return roles; }
-    public void setRoles(Set<StudentTrackerRoles> roles) {
+    public Set<StudentTrackerRole> getRoles() { return roles; }
+    public void setRoles(Set<StudentTrackerRole> roles) {
         this.roles = roles;
     }
-    public void addRole(StudentTrackerRoles role){
+    public void addRole(StudentTrackerRole role){
         if(this.roles == null){
             this.roles = new HashSet<>();
         }

@@ -1,8 +1,8 @@
 package com.norulesweb.studenttracker.core.services.user;
 
-import com.norulesweb.studenttracker.core.model.user.StudentTrackerRoles;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class StudentTrackerUserDTO {
@@ -12,7 +12,9 @@ public class StudentTrackerUserDTO {
 	
 	protected String password;
 
-	private Set<StudentTrackerRoles> roles;
+	protected String userEmail;
+
+	private Set<StudentTrackerRoleDTO> roles;
 	
 	protected StudentTrackerSystemDTO studentTrackerSystem;
 
@@ -58,8 +60,31 @@ public class StudentTrackerUserDTO {
 		return password;
 	}
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Set<StudentTrackerRoleDTO> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<StudentTrackerRoleDTO> roles) {
+		this.roles = roles;
+	}
+
+	public void addRole(StudentTrackerRoleDTO role){
+		if(this.roles == null){
+			this.roles = new HashSet<>();
+		}
+		this.roles.add(role);
 	}
 
 	public StudentTrackerSystemDTO getStudentTrackerSystem() {

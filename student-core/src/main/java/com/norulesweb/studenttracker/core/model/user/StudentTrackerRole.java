@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(
         name = "STUDENT_TRACKER_ROLES"
 )
-public class StudentTrackerRoles extends ModelBase {
+public class StudentTrackerRole extends ModelBase {
 
     private StudentTrackerUser studentTrackerUser;
 
@@ -17,9 +17,9 @@ public class StudentTrackerRoles extends ModelBase {
 
     private String roleDescription;
 
-    public StudentTrackerRoles() { }
+    public StudentTrackerRole() { }
 
-    public StudentTrackerRoles(String roleCode, String roleDescription) {
+    public StudentTrackerRole(String roleCode, String roleDescription) {
         this.roleCode = roleCode;
         this.roleDescription = roleDescription;
     }

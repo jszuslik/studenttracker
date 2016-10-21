@@ -1,8 +1,13 @@
 package com.norulesweb.studenttracker.utils.data;
 
+import com.norulesweb.studenttracker.core.model.user.Role;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
+import com.norulesweb.studenttracker.core.repository.user.RoleRepository;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerSystemRepository;
+import com.norulesweb.studenttracker.core.repository.user.StudentTrackerUserRepository;
+import com.norulesweb.studenttracker.core.services.user.StudentTrackerRoleDTO;
 import com.norulesweb.studenttracker.core.services.user.StudentTrackerSystemDTO;
+import com.norulesweb.studenttracker.core.services.user.StudentTrackerUserDTO;
 import com.norulesweb.studenttracker.core.services.user.UserService;
 import com.norulesweb.studenttracker.core.services.utilities.StudentTrackerUserAuditorAwareLocal;
 import org.slf4j.Logger;
@@ -30,6 +35,9 @@ public class Initializer {
 	@Value("${initialize.user.password}")
 	protected String userPassword;
 
+	@Value("${initialize.user.email}")
+	protected String userEmail;
+
 	@Value("${initialize.platform.name}")
 	protected String platformName;
 
@@ -40,12 +48,32 @@ public class Initializer {
 	protected StudentTrackerSystemRepository studentTrackerSystemRepository;
 
 	@Autowired
+	protected StudentTrackerUserRepository studentTrackerUserRepository;
+
+	@Autowired
 	protected UserService userService;
+
+	@Autowired
+	protected RoleRepository roleRepository;
 
 	@Autowired
 	protected StudentTrackerUserAuditorAwareLocal studentTrackerUserAuditorAwareLocal;
 
 	public void initializePlatform() {
+
+		String[][] roles = {
+				{"ROLE_ADMIN", "System Administrator"},
+				{"ROLE_TEACHER", "School Teacher"},
+				{"ROLE_STUDENT", "School Student"},
+				{"ROLE_PARENT", "Students Parent"}
+		};
+
+		for(String[] role : roles){
+			Role newRole = new Role();
+			newRole.setRoleCode(role[0]);
+			newRole.setRoleDescription(role[1]);
+			roleRepository.save(newRole);
+		}
 
 		StudentTrackerSystemDTO studentTrackerSystemDTO;
 		StudentTrackerSystem system = studentTrackerSystemRepository.findByName(platformName);
@@ -59,9 +87,21 @@ public class Initializer {
 			studentTrackerSystemDTO = new StudentTrackerSystemDTO(system);
 		}
 
+		StudentTrackerUserDTO studentTrackerUserDTO;
 		if (userService.findUserByUserName(userName) == null) {
-			// Create a user
-			userService.createStudentTrackerUser(userName, userPassword, system);
+			studentTrackerUserDTO = new StudentTrackerUserDTO();
+			studentTrackerUserDTO.setUserName(userName);
+			studentTrackerUserDTO.setPassword(userPassword);
+			studentTrackerUserDTO.setUserEmail(userEmail);
+			for(String[] role : roles) {
+				Role userRole = roleRepository.findByRoleCode(role[0]);
+				StudentTrackerRoleDTO roleDTO = new StudentTrackerRoleDTO();
+				roleDTO.setRoleCode(userRole.getRoleCode());
+				roleDTO.setRoleDescription(userRole.getRoleDescription());
+				studentTrackerUserDTO.addRole(roleDTO);
+			}
+
+			userService.createStudentTrackerUser(studentTrackerUserDTO, system);
 		}
 	}
 

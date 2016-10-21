@@ -1,6 +1,6 @@
 package com.norulesweb.studenttracker.core.services.user;
 
-import com.norulesweb.studenttracker.core.model.user.StudentTrackerRoles;
+import com.norulesweb.studenttracker.core.model.user.StudentTrackerRole;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerSystem;
 import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
 import com.norulesweb.studenttracker.core.repository.user.StudentTrackerRolesRepository;
@@ -38,15 +38,26 @@ public class UserServiceImpl implements UserService {
 	public StudentTrackerUserDTO createStudentTrackerUser(StudentTrackerUserDTO user, StudentTrackerSystem studentTrackerSystem) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-		Set<StudentTrackerRoles> roles = user.get
-
 		StudentTrackerUser studentTrackerUser = new StudentTrackerUser();
 		studentTrackerUser.setUserName(user.getUserName());
 		studentTrackerUser.setPassword(passwordEncoder.encode(user.getPassword()));
+		studentTrackerUser.setEmail(user.getUserEmail());
 
 		studentTrackerUser.setStudentTrackerSystem(studentTrackerSystem);
 
 		StudentTrackerUser savedUser = studentTrackerUserRepository.save(studentTrackerUser);
+
+		Set<StudentTrackerRoleDTO> roles = user.getRoles();
+		for(StudentTrackerRoleDTO role : roles) {
+			StudentTrackerRole studentTrackerRole = new StudentTrackerRole();
+			studentTrackerRole.setRoleCode(role.getRoleCode());
+			studentTrackerRole.setRoleDescription(role.getRoleDescription());
+			studentTrackerRole.setStudentTrackerUser(savedUser);
+			StudentTrackerRole savedRole = studentTrackerRolesRepository.save(studentTrackerRole);
+			savedUser.addRole(savedRole);
+		}
+
+		savedUser = studentTrackerUserRepository.save(savedUser);
 
 		studentTrackerUserRepository.flushAndRefresh(savedUser);
 

@@ -22,8 +22,8 @@ public class StatelessCsrfSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
-				.jdbcAuthentication().usersByUsernameQuery("select userName, password from student_tracker_user where username = ?")
-				.authoritiesByUsernameQuery("select u1.userName, u2.rolCode from student_tracker_user u1, student_tracker_roles u2 where u1.id = u2.studentTrackerUserId and u1.userName =?");
+				.jdbcAuthentication().usersByUsernameQuery("select userName, password from student_tracker_user where username = admin")
+				.authoritiesByUsernameQuery("select u1.userName, u2.rolCode from student_tracker_user u1, student_tracker_roles u2 where u1.id = u2.studentTrackerUserId and u1.userName =admin");
 	}
 
 }
