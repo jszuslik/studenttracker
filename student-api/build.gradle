@@ -45,6 +45,10 @@ project(":student-api:core") {
         compile("org.springframework:spring-web")
         compile("org.springframework.security:spring-security-web")
         compile("org.springframework.boot:spring-boot-starter-tomcat")
+        // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+        compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+        // https://mvnrepository.com/artifact/org.springframework.mobile/spring-mobile-device
+        compile group: 'org.springframework.mobile', name: 'spring-mobile-device', version: '1.1.5.RELEASE'
         compile project(":student-core")
 
         testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -90,6 +94,8 @@ project(":student-api:service") {
         compile("org.springframework.boot:spring-boot-starter-data-jpa")
         compile("org.springframework.boot:spring-boot-starter-security")
         compile("org.springframework.boot:spring-boot-starter-integration")
+        // https://mvnrepository.com/artifact/org.springframework.mobile/spring-mobile-device
+        compile group: 'org.springframework.mobile', name: 'spring-mobile-device', version: '1.1.5.RELEASE'
         compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
         compile("javax.mail:mail:1.4")                // Logback email notification support

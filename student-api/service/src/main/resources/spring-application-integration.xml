@@ -10,32 +10,32 @@
       http://www.springframework.org/schema/beans
       http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
 
-    <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>springSecurityFilterChain</filter-name>-->
+        <!--<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>springSecurityFilterChain</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 
-    <sec:global-method-security pre-post-annotations="enabled" />  (1)
+    <!--<sec:global-method-security pre-post-annotations="enabled" />  (1)-->
 
-    <sec:http pattern="/api/login" security="none"/>   (2)
-    <sec:http pattern="/api/signup" security="none"/>
+    <!--<sec:http pattern="/api/login" security="none"/>   (2)-->
+    <!--<sec:http pattern="/api/signup" security="none"/>-->
 
-    <sec:http pattern="/api/**" entry-point-ref="jwtAuthenticationEntryPoint" create-session="stateless"> (3)
-        <sec:csrf disabled="true"/>  (4)
-        <sec:custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>  (5)
-    </sec:http>
+    <!--<sec:http pattern="/api/**" entry-point-ref="jwtAuthenticationEntryPoint" create-session="stateless"> (3)-->
+        <!--<sec:csrf disabled="true"/>  (4)-->
+        <!--<sec:custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>  (5)-->
+    <!--</sec:http>-->
 
-    <beans:bean id="jwtAuthenticationFilter" class="com.norulesweb.studenttracker.api.security.JwtAuthenticationTokenFilter">  (6)
-        <beans:property name="authenticationManager" ref="authenticationManager" />
-        <beans:property name="authenticationSuccessHandler" ref="jwtAuthenticationSuccessHandler" />  (7)
-    </beans:bean>
+    <!--<beans:bean id="jwtAuthenticationFilter" class="com.norulesweb.studenttracker.api.security.JwtAuthenticationTokenFilter">  (6)-->
+        <!--<beans:property name="authenticationManager" ref="authenticationManager" />-->
+        <!--<beans:property name="authenticationSuccessHandler" ref="jwtAuthenticationSuccessHandler" />  (7)-->
+    <!--</beans:bean>-->
 
-    <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider ref="jwtAuthenticationProvider" />  (8)
-    </sec:authentication-manager>
+    <!--<sec:authentication-manager alias="authenticationManager">-->
+        <!--<sec:authentication-provider ref="jwtAuthenticationProvider" />  (8)-->
+    <!--</sec:authentication-manager>-->
 
 </beans:beans>

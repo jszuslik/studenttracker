@@ -1,10 +1,12 @@
 package com.norulesweb.studenttracker.api;
 
-import com.norulesweb.studenttracker.core.common.StudentTrackerRepositoryFactoryBean;
+import com.norulesweb.studenttracker.core.common.AppRepositoryFactoryBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -22,10 +24,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(
 		basePackages = { "com.norulesweb.studenttracker.core", "com.norulesweb.studenttracker.api.web", "com.norulesweb.studenttracker.api.security"}
 )
+@EnableAutoConfiguration(exclude={
+	JmsAutoConfiguration.class
+})
 @EnableTransactionManagement
 // @ImportResource("classpath:spring-application-integration.xml")
 @EnableJpaRepositories(
-		repositoryFactoryBeanClass = StudentTrackerRepositoryFactoryBean.class,
+		repositoryFactoryBeanClass = AppRepositoryFactoryBean.class,
 		basePackages = { "com.norulesweb.studenttracker.core.repository" }
 )
 @EntityScan(basePackages = { "com.norulesweb.studenttracker.core" })

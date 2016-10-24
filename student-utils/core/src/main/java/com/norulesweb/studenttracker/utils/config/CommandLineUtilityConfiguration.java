@@ -1,6 +1,6 @@
 package com.norulesweb.studenttracker.utils.config;
 
-import com.norulesweb.studenttracker.core.common.StudentTrackerRepositoryFactoryBean;
+import com.norulesweb.studenttracker.core.common.AppRepositoryFactoryBean;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration;
 import org.springframework.boot.orm.jpa.EntityScan;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /* Set up JPA repositories */
 @EnableTransactionManagement
 @EnableJpaRepositories(
-		repositoryFactoryBeanClass = StudentTrackerRepositoryFactoryBean.class,
+		repositoryFactoryBeanClass = AppRepositoryFactoryBean.class,
 		basePackages = { "com.norulesweb.studenttracker.core.repository" }
 )
 @EntityScan(basePackages = { "com.norulesweb.studenttracker.core" })

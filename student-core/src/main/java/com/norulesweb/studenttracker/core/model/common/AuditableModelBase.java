@@ -1,6 +1,6 @@
 package com.norulesweb.studenttracker.core.model.common;
 
-import com.norulesweb.studenttracker.core.model.user.StudentTrackerUser;
+import com.norulesweb.studenttracker.core.model.user.AppUser;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,9 +19,9 @@ public abstract class AuditableModelBase extends VersionedModelBase {
 
     protected Instant updatedOn;
 
-    protected StudentTrackerUser createdBy;
+    protected AppUser createdBy;
 
-    protected StudentTrackerUser updatedBy;
+    protected AppUser updatedBy;
 
     public AuditableModelBase() { }
 
@@ -65,11 +65,11 @@ public abstract class AuditableModelBase extends VersionedModelBase {
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="CREATED_BY_STUDENT_TRACKER_USER_ID")
-    public StudentTrackerUser getCreatedBy() {
+    public AppUser getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(StudentTrackerUser createdBy) {
+    public void setCreatedBy(AppUser createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -79,11 +79,11 @@ public abstract class AuditableModelBase extends VersionedModelBase {
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name="UPDATED_BY_STUDENT_TRACKER_USER_ID")
-    public StudentTrackerUser getUpdatedBy() {
+    public AppUser getUpdatedBy() {
         return updatedBy;
     }
 
-    public void setUpdatedBy(StudentTrackerUser updatedBy) {
+    public void setUpdatedBy(AppUser updatedBy) {
         this.updatedBy = updatedBy;
     }
 
