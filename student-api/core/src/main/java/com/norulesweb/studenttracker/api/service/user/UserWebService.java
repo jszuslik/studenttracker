@@ -1,28 +1,23 @@
 package com.norulesweb.studenttracker.api.service.user;
 
-import com.norulesweb.studenttracker.api.security.TokenUtils;
-import com.norulesweb.studenttracker.api.security.model.AuthenticationRequest;
-import com.norulesweb.studenttracker.api.security.model.AuthenticationResponse;
-import com.norulesweb.studenttracker.api.security.model.SpringSecurityUser;
 import com.norulesweb.studenttracker.api.utilities.AppConstant;
+import com.norulesweb.studenttracker.core.model.user.AppUser;
+import com.norulesweb.studenttracker.core.repository.user.AppUserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletException;
+import java.util.*;
 
 @Service
 @Validated
@@ -31,46 +26,42 @@ public class UserWebService {
 	private static final Logger log = LoggerFactory.getLogger(UserWebService.class);
 
 	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private TokenUtils tokenUtils;
-
-	@Autowired
-	private UserDetailsService userDetailsService;
+	protected AppUserRepository appUserRepository;
 
 	@RequestMapping(path= AppConstant.URL_USER_LOGIN, method = RequestMethod.POST)
-	public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
-			throws AuthenticationException {
+	public ResponseEntity<?> login(@RequestBody final UserLogin login)
+			throws ServletException {
+		AppUser user = appUserRepository.findByUsername(login.username);
+		Map<String, List<String>> userDb = null;
+		if(user != null){
+			userDb = new HashMap<>();
+			String[] strRoles = user.getAuthorities().split(",");
+			List<String> roles = new ArrayList<>(Arrays.asList(strRoles));
+			userDb.put(user.getUsername(), roles);
+		}
 
-		// Perform the authentication
-		Authentication authentication = this.authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(
-						                                       authenticationRequest.getUsername(),
-						                                       authenticationRequest.getPassword()
-				)
-		);
-		log.info("Auth - {}", authentication.isAuthenticated());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		if (login.username == null || !userDb.containsKey(login.username)) {
+			throw new ServletException("Invalid login");
+		}
+		LoginResponse loginResponse = new LoginResponse(Jwts.builder().setSubject(login.username)
+				                                                .claim("roles", userDb.get(login.username)).setIssuedAt(new Date())
+				                                                .signWith(SignatureAlgorithm.HS256, "secretkey").compact());
 
-		// Reload password post-authentication so we can generate token
-		UserDetails userDetails = this.userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-		String token = this.tokenUtils.generateToken(userDetails);
-
-		// Return the token
-		return ResponseEntity.ok(new AuthenticationResponse(token));
+		return new ResponseEntity<LoginResponse>(loginResponse, HttpStatus.OK);
 	}
 
-	@RequestMapping(path = AppConstant.URL_USER_LOGIN, method = RequestMethod.GET)
-	public ResponseEntity<?> authenticationRequest(HttpServletRequest request) {
-		String token = request.getHeader(AppConstant.tokenHeader);
-		String username = this.tokenUtils.getUsernameFromToken(token);
-		SpringSecurityUser user = (SpringSecurityUser) this.userDetailsService.loadUserByUsername(username);
-		if (this.tokenUtils.canTokenBeRefreshed(token, user.getLastPasswordReset())) {
-			String refreshedToken = this.tokenUtils.refreshToken(token);
-			return ResponseEntity.ok(new AuthenticationResponse(refreshedToken));
-		} else {
-			return ResponseEntity.badRequest().body(null);
+	@SuppressWarnings("unused")
+	private static class UserLogin {
+		public String username;
+		public String password;
+	}
+
+	@SuppressWarnings("unused")
+	private static class LoginResponse {
+		public String token;
+
+		public LoginResponse(final String token) {
+			this.token = token;
 		}
 	}
 
